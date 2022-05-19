@@ -9,9 +9,21 @@ module.exports = function (app) {
     );
     next();
   });
-
-  app.get("/api/category/:id", controller.GetCategoryById);
-  app.post("/api/category", controller.AddCategory);
-  app.put("/api/category/:id", controller.updateCategory);
-  app.delete("/api/category/:id", controller.deleteCategory);
+  app.get("/api/category", [authJwt.verifyToken], controller.GetCategory);
+  app.get(
+    "/api/category/:id",
+    [authJwt.verifyToken],
+    controller.GetCategoryById
+  );
+  app.post("/api/category", [authJwt.verifyToken], controller.AddCategory);
+  app.put(
+    "/api/category/:id",
+    [authJwt.verifyToken],
+    controller.updateCategory
+  );
+  app.delete(
+    "/api/category/:id",
+    [authJwt.verifyToken],
+    controller.deleteCategory
+  );
 };

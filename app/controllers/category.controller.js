@@ -15,13 +15,15 @@ module.exports.GetCategoryById = async (req, res, next) => {
     console.log(err);
   }
 };
-module.exports.GetBlog = async (req, res, next) => {
+module.exports.GetCategory = async (req, res, next) => {
   try {
-    const info = await Services.GetBlog(req);
-    return res.status(200).json({
-      is_success: true,
-      info,
-    });
+    const info = await Services.GetCategory(req);
+        return apiResponse.successResponseWithData(
+          res,
+          "تم الاسترجاع بنجاح",
+          info
+        );
+
   } catch (err) {
     next(err);
     console.log(err);

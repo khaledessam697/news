@@ -5,15 +5,12 @@ const path = require("path");
 const db = require("../models");
 const Category = db.category;
 //database services
-const Lang = {
-  En: "En",
-  Ar: "Ar",
-};
-exports.GetBlog = async (req) => {
-  return await Blog.find({})
-    .sort("-date")
-    .populate("coverPhoto")
-    .populate("user", { password: 0, __v: 0, id: 0 });
+
+
+exports.GetCategory = async (req) => {
+  return await Category.find({})
+    .sort("createdAt")
+    .populate("cover").select("-__v");
 };
 
 exports.GetCategoryById = async (req,res) => {

@@ -46,6 +46,7 @@ require("./app/routes/upload.routes")(app);
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/category.routes")(app);
+require("./app/routes/post.routes")(app);
 
 app.use(validationHandler());
 app.use(errorHandler());

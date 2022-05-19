@@ -37,7 +37,9 @@ module.exports.uploadAttachment = (req, res, next) => {
 
 
 module.exports.GetFileById = async (res,id) => {
+  console.log(id);
   const file = await File.findById(id).select("-__v");
+  console.log(file);
   if (file) {
     return file;
   } else {

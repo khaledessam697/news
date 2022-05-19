@@ -1,12 +1,20 @@
 const config = require("../config/auth.config");
 const db = require("../models");
+const validations = require("../validations/signup-validation");
 const User = db.user;
 const Role = db.role;
+const apiResponse = require("../../helpers/apiResponse");
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
+  const validationResult =  validateSignUp(req);
+  console.log(validationResult);
+  if (validationResult.error) {
+    console.log(validationResult.error);
+    return apiResponse.ErrorResponse(res, validationResult.error.message);
+  }
   const user = new User({
     username: req.body.username,
     email: req.body.email,
@@ -19,7 +27,7 @@ exports.signup = (req, res) => {
       return;
     }
 
- /*   if (req.body.roles) {
+    if (req.body.roles) {
       Role.find(
         {
           name: { $in: req.body.roles }
@@ -53,13 +61,13 @@ exports.signup = (req, res) => {
           if (err) {
             res.status(500).send({ message: err });
             return;
-          }*/
+          }
 
           res.send({ message: "User was registered successfully!" });
         });
-    //  });
-   // }
-  //});
+      });
+    }
+  });
 };
 
 exports.signin = (req, res) => {
@@ -106,4 +114,8 @@ exports.signin = (req, res) => {
         accessToken: token
       });
     });
+};
+const validateSignUp =  (req) => {
+  const error = validations.addInfo.validate(req.body);
+  return error;
 };

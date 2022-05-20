@@ -1,6 +1,8 @@
 const apiResponse = require("../../helpers/apiResponse");
 const upload = require("../../helpers/upload");
 const multer = require("multer");
+const { verifyFile } = require("../middlewares");
+
 const {uploadAttachment}=require("../controllers/upload.controller")
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -12,7 +14,7 @@ module.exports = function (app) {
   });
 
   app.post(
-    "/api/upload",
+    "/api/upload",[verifyFile.verifyFile,
     (req, res, next) => {
       upload.any()(req, res, function (err) {
         if (err) {
@@ -21,6 +23,6 @@ module.exports = function (app) {
         }
         next();
       });
-    },
+    }],
     uploadAttachment
   )};

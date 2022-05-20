@@ -29,11 +29,11 @@ exports.AddEvent = async (req, res) => {
   if (validationResult.error) {
     console.log(validationResult.error);
     return apiResponse.ErrorResponse(res, validationResult.error.message);
-  }
-  await GetFileById(res, req.body.cover);
+  }  if((await GetFileById(res,req.body.cover)).id){
   return await Event.create(req.body).catch((err) => {
     return apiResponse.ErrorResponse(res, err);
   });
+}
 };
 
 exports.updateEvent = async (req, res) => {
@@ -45,7 +45,7 @@ exports.updateEvent = async (req, res) => {
     console.log(validationResult.error);
     return apiResponse.ErrorResponse(res, validationResult.error.message);
   }
-  await GetFileById(res, req.body.cover);
+    if((await GetFileById(res,req.body.cover)).id){
 
   return await Event.findOneAndUpdate(
     { _id: id },
@@ -53,7 +53,7 @@ exports.updateEvent = async (req, res) => {
     { new: true }
   )
     .populate("cover")
-    .select("-__v");
+    .select("-__v");}
 };
 
 exports.deleteEvent = async (req, res) => {

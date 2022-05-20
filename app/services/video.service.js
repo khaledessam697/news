@@ -33,10 +33,12 @@ exports.AddVideo = async (req, res) => {
     console.log(validationResult.error);
     return apiResponse.ErrorResponse(res, validationResult.error.message);
   }
-  await GetFileById(res, req.body.cover);
+    if((await GetFileById(res,req.body.cover)).id){
+
   return await Video.create(req.body).catch((err) => {
     return apiResponse.ErrorResponse(res, err);
   });
+}
 };
 
 exports.updateVideo = async (req, res) => {
@@ -48,7 +50,8 @@ exports.updateVideo = async (req, res) => {
     console.log(validationResult.error);
     return apiResponse.ErrorResponse(res, validationResult.error.message);
   }
-  await GetFileById(res, req.body.cover);
+    if((await GetFileById(res,req.body.cover)).id){
+
 
   return await Video.findOneAndUpdate(
     { _id: id },
@@ -57,7 +60,7 @@ exports.updateVideo = async (req, res) => {
   )
     .populate("cover")
     .populate("videoUrl")
-    .select("-__v");
+    .select("-__v");}
 };
 
 exports.deleteVideo = async (req, res) => {

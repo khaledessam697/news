@@ -40,10 +40,10 @@ exports.AddStory = async (req, res) => {
     console.log(validationResult.error);
     return apiResponse.ErrorResponse(res, validationResult.error.message);
   }
-  await GetFileById(res, req.body.cover);
+  if((await GetFileById(res,req.body.cover)).id){
   return await Story.create(req.body).catch((err) => {
     return apiResponse.ErrorResponse(res, err);
-  });
+  });}
 };
 
 exports.updateStory = async (req, res) => {
@@ -55,7 +55,8 @@ exports.updateStory = async (req, res) => {
     console.log(validationResult.error);
     return apiResponse.ErrorResponse(res, validationResult.error.message);
   }
-  await GetFileById(res, req.body.cover);
+    if((await GetFileById(res,req.body.cover)).id){
+
 
   return await Story.findOneAndUpdate(
     { _id: id },
@@ -63,7 +64,7 @@ exports.updateStory = async (req, res) => {
     { new: true }
   )
     .populate("cover")
-    .select("-__v");
+    .select("-__v");}
 };
 
 exports.deleteStory = async (req, res) => {

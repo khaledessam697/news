@@ -1,6 +1,6 @@
 const db = require("../models");
 const apiResponse = require("../../helpers/apiResponse");
-const validations = require("../validations/uploadFile.validation");
+const validations = require("../validations/UploadFile.validation");
 
 verifyFile = (req, res, next) => {
   const validationResult =  validateObjectId(req);

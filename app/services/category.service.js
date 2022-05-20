@@ -36,21 +36,15 @@ exports.AddCategory = async (req,res) => {
     console.log(validationResult.error);
      return apiResponse.ErrorResponse(res, validationResult.error.message);
   }
-  await GetFileById(res,req.body.cover);
-  return await Category.create(req.body).catch(err=>{
-         return apiResponse.ErrorResponse(res,err);
-
+  if((await GetFileById(res,req.body.cover)).id){
+  return await Category.create(req.body).catch((err) => {
+    return apiResponse.ErrorResponse(res, err);
   });
+}
+
 };
 
-/*{
-  coverPhoto :file[0], 
-  category,
-  title,
-  content,
 
-}
-}*/
 exports.updateCategory = async (req,res) => {
   const id = req.params.id;
   await this.GetCategoryById(req,res);
@@ -60,11 +54,10 @@ exports.updateCategory = async (req,res) => {
     console.log(validationResult.error);
     return apiResponse.ErrorResponse(res, validationResult.error.message);
   }
-    await GetFileById(res,req.body.cover);
-
+    if((await GetFileById(res,req.body.cover)).id){
  return await Category.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
    .populate("cover")
-   .select("-__v");;
+   .select("-__v");}
 };
 
 exports.deleteCategory = async (req, res) => {

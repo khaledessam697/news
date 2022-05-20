@@ -104,10 +104,10 @@ exports.AddPost = async (req, res) => {
     await GetCategoryById(req, res);
   }
   req.body.author = req.userId;
-  await GetFileById(res, req.body.cover);
+    if((await GetFileById(res,req.body.cover)).id){
   return await Post.create(req.body).catch((err) => {
     return apiResponse.ErrorResponse(res, err);
-  });
+  });}
 };
 
 exports.updatePost = async (req, res) => {
@@ -119,15 +119,16 @@ exports.updatePost = async (req, res) => {
     console.log(validationResult.error);
     return apiResponse.ErrorResponse(res, validationResult.error.message);
   }
-  await GetFileById(res, req.body.cover);
+    if((await GetFileById(res,req.body.cover)).id){
 
+    
   return await Post.findOneAndUpdate(
     { _id: id },
     { ...req.body },
     { new: true }
   )
     .populate("cover")
-    .select("-__v");
+    .select("-__v");}
 };
 
 exports.deletePost = async (req, res) => {

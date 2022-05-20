@@ -9,10 +9,9 @@ module.exports = function (app) {
     );
     next();
   });
-  app.get("/api/event", [authJwt.verifyToken], controller.GetEvent);
+  app.get("/api/event", controller.GetEvent);
   app.get(
     "/api/event/:id",
-    [authJwt.verifyToken],
     controller.GetEventById
   );
   app.post("/api/event", [authJwt.verifyToken], controller.AddEvent);
@@ -23,7 +22,6 @@ module.exports = function (app) {
   );
   app.delete(
     "/api/event/:id",
-    [authJwt.verifyToken],
     controller.deleteEvent
   );
 };

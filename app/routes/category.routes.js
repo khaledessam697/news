@@ -9,10 +9,9 @@ module.exports = function (app) {
     );
     next();
   });
-  app.get("/api/category", [authJwt.verifyToken], controller.GetCategory);
+  app.get("/api/category", controller.GetCategory);
   app.get(
     "/api/category/:id",
-    [authJwt.verifyToken],
     controller.GetCategoryById
   );
   app.post("/api/category", [authJwt.verifyToken,verifyCategory.checkDuplicateCategory], controller.AddCategory);
@@ -23,7 +22,6 @@ module.exports = function (app) {
   );
   app.delete(
     "/api/category/:id",
-    [authJwt.verifyToken],
     controller.deleteCategory
   );
 };

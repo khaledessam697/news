@@ -24,6 +24,16 @@ module.exports.GetPost = async (req, res, next) => {
   }
 };
 
+module.exports.GetPostsByCategory = async (req, res, next) => {
+  try {console.log("5555555555555555555555555555555");
+    const post = await Services.GetPostsByCategory(req,res);
+    return apiResponse.successResponseWithData(res, "تم الاسترجاع بنجاح", post);
+  } catch (err) {
+    next(err);
+    console.log(err);
+  }
+};
+
 module.exports.AddPost = async (req, res, next) => {
   try {
     //await Services.validatePageInfo(req);

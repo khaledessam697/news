@@ -47,6 +47,10 @@ require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/category.routes")(app);
 require("./app/routes/post.routes")(app);
+require("./app/routes/event.routes")(app);
+require("./app/routes/eventPost.routes")(app);
+require("./app/routes/story.routes")(app);
+require("./app/routes/video.routes")(app);
 
 app.use(validationHandler());
 app.use(errorHandler());

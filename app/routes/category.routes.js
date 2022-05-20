@@ -1,4 +1,4 @@
-const { authJwt } = require("../middlewares");
+const { authJwt,verifyCategory } = require("../middlewares");
 const controller = require("../controllers/category.controller");
 
 module.exports = function (app) {
@@ -15,7 +15,7 @@ module.exports = function (app) {
     [authJwt.verifyToken],
     controller.GetCategoryById
   );
-  app.post("/api/category", [authJwt.verifyToken], controller.AddCategory);
+  app.post("/api/category", [authJwt.verifyToken,verifyCategory.checkDuplicateCategory], controller.AddCategory);
   app.put(
     "/api/category/:id",
     [authJwt.verifyToken],

@@ -15,7 +15,7 @@ module.exports.uploadAttachment = (req, res, next) => {
       size: req.files[0].size,
       originalname: req.files[0].originalname,
       fileType: req.query.type,
-      fullPath: path.join(process.env.ABSOLUTE_PATH + req.files[0].path),
+      fullPath:  req.files[0].location,
     });
 
     file.save((err, file) => {
@@ -37,7 +37,7 @@ module.exports.uploadAttachment = (req, res, next) => {
 
 
 module.exports.GetFileById = async (res,id) => {
-  console.log(id);
+  console.log("------------------GetFileById------------------------");
   const file = await File.findById(id).select("-__v");
   console.log(file);
   if (file) {

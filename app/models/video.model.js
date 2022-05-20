@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const Post = mongoose.model(
-  "Post",
+const Video = mongoose.model(
+  "Video",
   new mongoose.Schema(
     {
       title: String,
@@ -10,16 +10,15 @@ const Post = mongoose.model(
         type: mongoose.Schema.Types.ObjectId,
         ref: "File",
       },
+      videoUrl: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "File",
+      },
       author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
-      category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-      },
       isFeatured: { type: Boolean, default: false },
-      inSlider: { type: Boolean, default: false },
     },
     {
       timestamps: true,
@@ -33,4 +32,4 @@ const Post = mongoose.model(
   )
 );
 
-module.exports = Post;
+module.exports = Video;

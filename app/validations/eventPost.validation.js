@@ -7,7 +7,7 @@ const validations = {
     content: Joi.string().required(),
     title: Joi.string().required(),
     cover: Joi.objectId().required(),
-    category: Joi.objectId().required(),
+    event: Joi.objectId().required(),
     isFeatured: Joi.boolean(),
     inSlider: Joi.boolean(),
   }),
@@ -15,12 +15,12 @@ const validations = {
     content: Joi.string().required(),
     title: Joi.string().required(),
     cover: Joi.objectId().required(),
-    category: Joi.objectId().required(),
+    event: Joi.objectId().required(),
     isFeatured: Joi.boolean(),
     inSlider: Joi.boolean(),
   }),
   objectId: Joi.object({
-    categoryId: Joi.objectId(),
+    eventId: Joi.objectId(),
   }),
 };
 module.exports = validations;

@@ -1,8 +1,88 @@
 const fs = require("fs");
 const multer = require("multer");
 const apiResponse = require("./apiResponse");
-const validations=require('../app/validations/upload.validation')
-const storage = multer.diskStorage({
+const validations = require("../app/validations/upload.validation");
+const AWS = require("aws-sdk");
+const multerS3 = require("multer-s3");
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+const storage = multerS3({
+  s3: s3,
+  bucket: "new-blogs",
+  acl: "public-read",
+  metadata: function (req, file, cb) {
+    try {
+      console.log("->", file);
+      cb(null, { fieldName: file.fieldname });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  key: function (req, file, cb) {
+    try {
+      let folderName;
+      const validationResult = validations.type.validate(req.query.type);
+      if (validationResult.error) {
+        console.log(validationResult.error);
+        throw validationResult.error.message;
+      }
+      if (req.query.type == "video") {
+        folderName = "videos";
+      } else {
+        folderName = "images";
+      }
+      console.log(
+        file.originalname.split(".")[file.originalname.split(".").length - 1]
+      );
+      console.log(file);
+      if (!file) {
+        throw "no file found";
+      }
+      const fileTypes = ["jpeg", "jpg", "png", "mp4", "avi", "Webm"];
+      if (
+        !fileTypes.includes(
+          file.originalname
+            .split(".")
+            [file.originalname.split(".").length - 1].toLowerCase()
+        )
+      ) {
+        throw "not supported type";
+      }
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      console.log(
+        "ppppppppppppppppppathhhhhhhhhhhh",
+        "my-uploads/" +
+          folderName +
+          "/" +
+          file.fieldname +
+          "-" +
+          uniqueSuffix +
+          "." +
+          file.originalname.split(".")[file.originalname.split(".").length - 1]
+      );
+      cb(
+        null,
+        "my-uploads/" +
+          folderName +
+          "/" +
+          file.fieldname +
+          "-" +
+          uniqueSuffix +
+          "." +
+          file.originalname.split(".")[file.originalname.split(".").length - 1]
+      );
+    } catch (err) {
+      console.log(err);
+      cb(err, "");
+    }
+  },
+});
+const upload = multer({ storage: storage });
+
+//const bucketName = "news";
+/*const storage = multer.diskStorage({
   destination: function (req, file, cb) {
       try{
     let folderName;
@@ -54,9 +134,8 @@ const storage = multer.diskStorage({
       cb(err, "");
     }
   },
-});
+});*/
 
-const upload = multer({ storage: storage });
 /*
 const upload = multer({
   storage: multerS3({

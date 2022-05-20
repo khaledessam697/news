@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const Post = mongoose.model(
-  "Post",
+const EventPost = mongoose.model(
+  "EventPost",
   new mongoose.Schema(
     {
       title: String,
@@ -14,9 +14,9 @@ const Post = mongoose.model(
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
-      category: {
+      event: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
+        ref: "Event",
       },
       isFeatured: { type: Boolean, default: false },
       inSlider: { type: Boolean, default: false },
@@ -33,4 +33,4 @@ const Post = mongoose.model(
   )
 );
 
-module.exports = Post;
+module.exports = EventPost;

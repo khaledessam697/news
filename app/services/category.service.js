@@ -1,4 +1,4 @@
-const validations = require("../validations/category.validations");
+const validations = require("../validations/category.validation");
 const apiResponse = require("../../helpers/apiResponse");
 const {GetFileById}=require('../controllers/upload.controller')
 const path = require("path");
@@ -13,6 +13,11 @@ exports.GetCategory = async (req) => {
     .populate("cover").select("-__v");
 };
 
+exports.GetCategoriesName = async () => {
+  return await Category.find({}, {}, { sort: { createdAt: -1 } })
+    .select("-__v")
+};
+
 exports.GetCategoryById = async (req,res) => {
   const id = req.params.id;
   const category = await Category.findById(id).populate("cover").select("-__v");
@@ -20,7 +25,7 @@ exports.GetCategoryById = async (req,res) => {
   {
     return category;
   }
-  else{console.log("5555555555555555555");
+  else{
          return apiResponse.notFoundResponse(res, "لم يتم العثور على ذلك العنصر");
   }
 };

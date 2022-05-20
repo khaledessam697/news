@@ -9,9 +9,10 @@ module.exports = function (app) {
     );
     next();
   });
-  app.get("/api/post", [authJwt.verifyToken], controller.GetPost);
-  app.get("/api/post/:id", [authJwt.verifyToken], controller.GetPostById);
+  app.get("/api/post/search", controller.GetPostsByCategory);
+  app.get("/api/post", controller.GetPost);
+  app.get("/api/post/:id", controller.GetPostById);
   app.post("/api/post", [authJwt.verifyToken], controller.AddPost);
-  app.put("/api/post/:id",[authJwt.verifyToken], controller.updatePost);
-  app.delete("/api/post/:id", [authJwt.verifyToken], controller.deletePost);
+  app.put("/api/post/:id", [authJwt.verifyToken], controller.updatePost);
+  app.delete("/api/post/:id", controller.deletePost);
 };

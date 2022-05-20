@@ -1,25 +1,31 @@
 const mongoose = require("mongoose");
 
-const Post = mongoose.model(
-  "Post",
+const Event = mongoose.model(
+  "Event",
   new mongoose.Schema(
     {
       title: String,
+      description: String,
       content: String,
       cover: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "File",
       },
-      author: {
+     coverAbout: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "File",
       },
-      category: {
+      coverOurVision: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
+        ref: "File",
       },
-      isFeatured: { type: Boolean, default: false },
-      inSlider: { type: Boolean, default: false },
+      coverGoals: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "File",
+      },
+      about: String,
+      ourVision: String,
+      goals:String
     },
     {
       timestamps: true,
@@ -33,4 +39,4 @@ const Post = mongoose.model(
   )
 );
 
-module.exports = Post;
+module.exports = Event;

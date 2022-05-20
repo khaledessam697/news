@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const Post = mongoose.model(
-  "Post",
+const Story = mongoose.model(
+  "Story",
   new mongoose.Schema(
     {
       title: String,
@@ -14,12 +14,7 @@ const Post = mongoose.model(
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
-      category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-      },
       isFeatured: { type: Boolean, default: false },
-      inSlider: { type: Boolean, default: false },
     },
     {
       timestamps: true,
@@ -33,4 +28,4 @@ const Post = mongoose.model(
   )
 );
 
-module.exports = Post;
+module.exports = Story;

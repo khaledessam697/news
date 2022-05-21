@@ -58,7 +58,6 @@ exports.GetPostsByCategory = async (req, res) => {
   }
   else{
  let categories=await GetCategoriesName();
- console.log("categories", categories);
  let sliderPosts,defaultPosts;
  let result ={sliderPosts:[],posts:[]};
  //categories.forEach(async(element,counter)=>{
@@ -75,21 +74,11 @@ exports.GetPostsByCategory = async (req, res) => {
     .populate("author")
     .populate("category")
     .select("-__v");
-    result.sliderPosts.push({name:element.name,sliderPosts});
-    result.posts.push({name:element.name,defaultPosts});
+    result.sliderPosts.push.apply(result.sliderPosts, sliderPosts);
+    result.posts.push.apply(result.posts, defaultPosts);
  };
      return result;
   }
- /* const post = await Post.findById(id)
-    .populate("cover")
-    .populate("author")
-    .populate("category")
-    .select("-__v");
-  if (post) {
-    return post;
-  } else {
-    return apiResponse.notFoundResponse(res, "لم يتم العثور على ذلك العنصر");
-  }*/
 };
 
 exports.AddPost = async (req, res) => {

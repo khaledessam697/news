@@ -9,7 +9,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
-  const validationResult =  validateSignUp(req);
+  const validationResult = validateSignUp(req);
   console.log(validationResult);
   if (validationResult.error) {
     console.log(validationResult.error);
@@ -18,8 +18,8 @@ exports.signup = (req, res) => {
   const user = new User({
     username: req.body.username,
     email: req.body.email,
-    phoneNumber:req.body.phoneNumber,
-    password: bcrypt.hashSync(req.body.password, 8)
+    phoneNumber: req.body.phoneNumber,
+    password: bcrypt.hashSync(req.body.password, 8),
   });
 
   user.save((err, user) => {
@@ -31,7 +31,7 @@ exports.signup = (req, res) => {
     if (req.body.roles) {
       Role.find(
         {
-          name: { $in: req.body.roles }
+          name: { $in: req.body.roles },
         },
         (err, roles) => {
           if (err) {
@@ -39,14 +39,24 @@ exports.signup = (req, res) => {
             return;
           }
 
-          user.roles = roles.map(role => role._id);
-          user.save(err => {
+          user.roles = roles.map((role) => role._id);
+          user.save((err) => {
             if (err) {
               res.status(500).send({ message: err });
               return;
             }
-
-            res.send({ message: "User was registered successfully!" });
+            var token = jwt.sign({ id: user.id }, config.secret, {
+              expiresIn: 86400, // 24 hours
+            });
+            res.send({
+              message: "User was registered successfully!",
+              userInfo: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                accessToken: token,
+              },
+            });
           });
         }
       );
@@ -58,13 +68,24 @@ exports.signup = (req, res) => {
         }
 
         user.roles = [role._id];
-        user.save(err => {
+        user.save((err) => {
           if (err) {
             res.status(500).send({ message: err });
             return;
           }
-
-          res.send({ message: "User was registered successfully!" });
+          var token = jwt.sign({ id: user.id }, config.secret, {
+            expiresIn: 86400, // 24 hours
+          });
+          res.status(200).send({
+            message: "User was registered successfully!",
+            userInfo: {
+              id: user._id,
+              username: user.username,
+              email: user.email,
+              roles: authorities,
+              accessToken: token,
+            },
+          });
         });
       });
     }
@@ -73,7 +94,7 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
   User.findOne({
-    username: req.body.username
+    email: req.body.email,
   })
     .populate("roles", "-__v")
     .exec((err, user) => {
@@ -94,12 +115,12 @@ exports.signin = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!"
+          message: "Invalid Password!",
         });
       }
 
       var token = jwt.sign({ id: user.id }, config.secret, {
-        expiresIn: 86400 // 24 hours
+        expiresIn: 86400, // 24 hours
       });
 
       var authorities = [];
@@ -112,11 +133,11 @@ exports.signin = (req, res) => {
         username: user.username,
         email: user.email,
         roles: authorities,
-        accessToken: token
+        accessToken: token,
       });
     });
 };
-const validateSignUp =  (req) => {
+const validateSignUp = (req) => {
   const error = validations.addInfo.validate(req.body);
   return error;
 };

@@ -5,6 +5,8 @@ const apiResponse = require("../../helpers/apiResponse");
 
 checkDuplicateUsernameOrEmail = (req, res, next) => {
   // Username
+    if (req.body.username)
+{
   User.findOne({
     username: req.body.username,
   }).exec((err, user) => {
@@ -19,7 +21,8 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
         "Failed! Username is already in use!"
       );
     }
-
+  })
+}
     // Email
     User.findOne({
       email: req.body.email,
@@ -37,7 +40,6 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
 
       next();
     });
-  });
 };
 
 checkRolesExisted = (req, res, next) => {

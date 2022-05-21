@@ -11,6 +11,7 @@ const validations = {
     roles: Joi.array().items(
       Joi.string().valid("user", "moderator", "admin").required()
     ),
+    fullName: Joi.string().required().min(3).max(40),
   }),
 };
 module.exports = validations;

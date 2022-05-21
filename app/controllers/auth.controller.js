@@ -19,6 +19,7 @@ exports.signup = (req, res) => {
     username: req.body.username,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
+    fullName: req.body.fullName,
     password: bcrypt.hashSync(req.body.password, 8),
   });
 
@@ -55,6 +56,7 @@ exports.signup = (req, res) => {
                 username: user.username,
                 email: user.email,
                 accessToken: token,
+                fullName:user.fullName,
               },
             });
           });
@@ -84,6 +86,7 @@ exports.signup = (req, res) => {
               email: user.email,
               roles: authorities,
               accessToken: token,
+              fullName: user.fullName,
             },
           });
         });
@@ -133,6 +136,7 @@ exports.signin = (req, res) => {
         username: user.username,
         email: user.email,
         roles: authorities,
+        fullName: user.fullName,
         accessToken: token,
       });
     });

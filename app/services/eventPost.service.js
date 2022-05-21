@@ -95,7 +95,7 @@ exports.GetEventPostByEvent = async (req, res) => {
         .populate("cover")
         .populate("author")
         .select("-__v");
-      result.sliderPosts.push({ name: element.tiltle, sliderPosts });
+      result.sliderPosts.push({ name: element.title, sliderPosts });
       result.posts.push({ name: element.title, defaultPosts });
     }
     return result;

@@ -20,7 +20,7 @@ exports.GetStory = async (req) => {
     .populate("cover")
     .populate("author")
     .select("-__v");
-  result = { featuredStories, posts: defaultStories };
+  result = { featuredTopStories, topStories: defaultStories };
   return result;
 };
 

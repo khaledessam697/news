@@ -11,7 +11,7 @@ module.exports = function (app) {
   });
   app.get("/api/videos", controller.GetVideo);
   app.get("/api/video/:id", controller.GetVideoById);
-  app.post("/api/video", [authJwt.verifyToken], controller.AddVideo);
-  app.put("/api/video/:id", [authJwt.verifyToken], controller.updateVideo);
+  app.post("/api/video", /*[authJwt.verifyToken],*/ controller.AddVideo);
+  app.put("/api/video/:id", /*[authJwt.verifyToken],*/ controller.updateVideo);
   app.delete("/api/video/:id", controller.deleteVideo);
 };

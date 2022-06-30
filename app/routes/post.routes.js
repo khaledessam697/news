@@ -12,7 +12,7 @@ module.exports = function (app) {
   app.get("/api/post/search", controller.GetPostsByCategory);
   app.get("/api/post", controller.GetPost);
   app.get("/api/post/:id", controller.GetPostById);
-  app.post("/api/post", [authJwt.verifyToken], controller.AddPost);
-  app.put("/api/post/:id", [authJwt.verifyToken], controller.updatePost);
+  app.post("/api/post",/* [authJwt.verifyToken],*/ controller.AddPost);
+  app.put("/api/post/:id",/* [authJwt.verifyToken],*/ controller.updatePost);
   app.delete("/api/post/:id", controller.deletePost);
 };

@@ -14,10 +14,10 @@ module.exports = function (app) {
     "/api/category/:id",
     controller.GetCategoryById
   );
-  app.post("/api/category", [authJwt.verifyToken,verifyCategory.checkDuplicateCategory], controller.AddCategory);
+  app.post("/api/category", /*[authJwt.verifyToken,verifyCategory.checkDuplicateCategory],*/ controller.AddCategory);
   app.put(
     "/api/category/:id",
-    [authJwt.verifyToken],
+   /* [authJwt.verifyToken],*/
     controller.updateCategory
   );
   app.delete(
